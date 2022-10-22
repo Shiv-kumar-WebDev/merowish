@@ -8,6 +8,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\PincodeController;
+use App\Http\Controllers\ShipmentsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,9 +92,13 @@ Route::post('/pincodeCreate', [PincodeController::class, 'pincodeCreate'])->name
 Route::get('/PincodeEdit', [PincodeController::class, 'updatePincode'])->name('PincodeEdit');
 Route::get('/pincodeDelete', [PincodeController::class, 'destroyPincode'])->name('pincodeDelete');
 
-
-
-
+Route::get('/TodaysShipments', [ShipmentsController::class, 'listTodaysShipments'])->name('TodaysShipments');
+Route::get('/WarehouseStock', [ShipmentsController::class, 'listWarehouseStock'])->name('WarehouseStock');
+Route::get('/DispatchedToNepal', [ShipmentsController::class, 'listDispatchedToNepal'])->name('DispatchedToNepal');
+Route::get('/WrongProduct', [ShipmentsController::class, 'listWrongProduct'])->name('WrongProduct');
+Route::get('/viewShipment', [ShipmentsController::class, 'viewShipment'])->name('viewShipment');
+Route::get('/dispatch_now', [ShipmentsController::class, 'dispatch_now'])->name('dispatch_now');
+Route::get('/viewShipment', [ShipmentsController::class, 'viewShipment'])->name('viewShipment');
 
 
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
-class WarehouseController extends Controller
+class ShipmentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,52 +27,88 @@ class WarehouseController extends Controller
             // ->join('membership_plans', 'customer.id_plan', '=', 'membership_plans.id_membership_plan')
             ->get();
 
-        return view('warehouse.warehouseIndia')->with($data);
+        return view('city.city')->with($data);
     }
-    public function listWarehouse()
+    public function listTodaysShipments()
     {
-        $data['warehouseindia'] = DB::table('warehouse')
-            ->select('warehouse.*')
-            ->where('country','India')
+        $data['shipments'] = DB::table('shipments')
+            ->select('*')
+            // ->select('city.*','country.country_name')
+            ->join('product', 'shipments.product_id', '=', 'product.id_product')
+            ->join('membership_customers', 'shipments.customer_id', '=', 'membership_customers.id_membership_customer')
+            ->join('warehouse', 'shipments.warehouse_id', '=', 'warehouse.id_warehouse')
+            ->get();
+
+
+        return view('shipments.todayshipments')->with($data);
+    }
+    public function listWarehouseStock()
+    {
+        $data['warehouse'] = DB::table('warehouse')
+            ->select('*')
+            // ->select('city.*','country.country_name')
+            // ->join('product', 'orders.product_id', '=', 'product.id_product')
+            // ->join('customer', 'orders.customer_id', '=', 'customer.id_customer')
+            // ->join('warehouse', 'orders.customer_id', '=', 'warehouse.id_customer')
+            ->get();
+        return view('shipments.WarehouseStock')->with($data);
+    }
+    public function listDispatchedToNepal()
+    {
+        $data['orders'] = DB::table('orders')
+            ->select('orders.*')
+            // ->select('city.*','country.country_name')
+            // ->join('country', 'city.country', '=', 'country.country_id')
+            ->get();
+        return view('shipments.DispatchedToNepal')->with($data);
+    }
+    public function listWrongProduct()
+    {
+        $data['orders'] = DB::table('orders')
+            ->select('orders.*')
+            // ->select('city.*','country.country_name')
+            // ->join('country', 'city.country', '=', 'country.country_id')
+            ->get();
+        return view('shipments.DispatchedToNepal')->with($data);
+    }
+    public function listBlog()
+    {
+        $data['blogs'] = DB::table('blogs')
+            ->select('blogs.*')
             // ->join('membership_plans', 'customer.id_plan', '=', 'membership_plans.id_membership_plan')
             ->get();
 
-        return view('warehouse.warehouseIndia')->with($data);
-    }
-    public function listNepalWarehouse()
-    {
-        $data['warehouse_nepal'] = DB::table('warehouse')
-            ->select('warehouse.*')
-            ->where('country','Nepal')
-            // ->join('membership_plans', 'customer.id_plan', '=', 'membership_plans.id_membership_plan')
-            ->get();
-
-        return view('warehouse.warehouseNepal')->with($data);
+        return view('blog.blog')->with($data);
     }
     public function updateData(Request $request)
     {
         $id = $request->input();
 
 
-        $data['warehouseindia'] = DB::table('warehouse')
-            ->select('warehouse.*')
-            // ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
-            ->where('country','India')
-            ->where('id_warehouse',$id)
-            ->get();
-        return view('warehouse.warehouse_form')->with($data);
-    }
-    public function updateNepalWarehouseData(Request $request)
-    {
-        $id = $request->input();
-
-
-        $data['warehouse_nepal'] = DB::table('warehouse_nepal')
-            ->select('warehouse_nepal.*')
+        $data['warehouseindia'] = DB::table('warehouseindia')
+            ->select('warehouseindia.*')
             // ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
             ->where('id',$id)
             ->get();
-        return view('warehouse.nepal_warehouse_form')->with($data);
+        return view('warehouse.warehouse_form')->with($data);
+    }
+    public function viewShipment(Request $request)
+    {
+        $id = $request->input('id');
+
+        $data['shipments'] = DB::table('shipments')
+            ->select('*','membership_plans.name as mName','membership_customers.name as mcName')
+            // ->select('city.*','country.country_name')
+            ->join('product', 'shipments.product_id', '=', 'product.id_product')
+            ->join('membership_customers', 'shipments.customer_id', '=', 'membership_customers.id_membership_customer')
+            ->join('warehouse', 'shipments.warehouse_id', '=', 'warehouse.id_warehouse')
+            ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
+            // ->where('warehouse_id',$id)
+            ->get();
+
+            // dd($data);
+            
+        return view('shipments.view-shipment')->with($data);
     }
     /**
      * Show the form for creating a new resource.
@@ -187,7 +223,7 @@ class WarehouseController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input();
-        $deleted = DB::table('warehouse')->where('id_warehouse', '=', $id)->delete();
+        $deleted = DB::table('warehouseindia')->where('id', '=', $id)->delete();
         if($deleted){
             $request->session()->flash('message', 'Warehouse Deleted successfully');
             return Redirect('/warehouseIndia');
@@ -195,20 +231,23 @@ class WarehouseController extends Controller
             $request->session()->flash('message', 'Failed');
         }
     }
-    public function destroyNepalWarehouse (Request $request)
+    public function destroyCity (Request $request)
     {
         $id = $request->input();
-        $deleted = DB::table('warehouse')->where('id_warehouse', '=', $id)->delete();
+        $deleted = DB::table('city')->where('id', '=', $id)->delete();
         if($deleted){
-            $request->session()->flash('message', 'Warehouse Deleted successfully');
-            return Redirect('/warehouseNepal');
+            $request->session()->flash('message', 'City Deleted successfully');
+            return Redirect('/cityList');
         }else{
             $request->session()->flash('message', 'Failed');
         }
     }
-    public function addEmployee()
+    public function addCity()
     {
-        return view('employee.employee_form');
+        $data['country'] = DB::table('country')
+            ->select('country.*')
+            ->get();
+        return view('city.add-city')->with($data);
     }
     public function storeWarehouse(Request $request)
     {
@@ -228,8 +267,6 @@ class WarehouseController extends Controller
             }
 
 
-            $res['country']='India';
-
             unset($res['_token']);
             unset($res['id']);
             unset($res['passwd']);
@@ -237,8 +274,8 @@ class WarehouseController extends Controller
             unset($res['month']);
             unset($res['day']);
             
-            $update = DB::table('warehouse')
-                ->where('id_warehouse', $id)
+            $update = DB::table('warehouseindia')
+                ->where('id', $id)
                 ->update($res);
 
             if ($update) {
@@ -265,14 +302,14 @@ class WarehouseController extends Controller
             unset($res['month']);
             unset($res['day']);
 
-            if (DB::table('warehouse')->insert($res)) {
+            if (DB::table('warehouseindia')->insert($res)) {
                 $request->session()->flash('message', 'Warehouse created successfully');
             }
         }
         
         return redirect('warehouseIndia');
     }
-    public function storeWarehouseNepal(Request $request)
+    public function storeCity(Request $request)
     {
         $id = $request->input('id');
         // $res = new MembershipPlan();
@@ -290,8 +327,6 @@ class WarehouseController extends Controller
             }
 
 
-            $res['country']='Nepal';
-
             unset($res['_token']);
             unset($res['id']);
             unset($res['passwd']);
@@ -299,12 +334,12 @@ class WarehouseController extends Controller
             unset($res['month']);
             unset($res['day']);
             
-            $update = DB::table('warehouse')
-                ->where('id_warehouse', $id)
+            $update = DB::table('city')
+                ->where('id', $id)
                 ->update($res);
 
             if ($update) {
-                $request->session()->flash('message', 'Warehouse updated successfully');
+                $request->session()->flash('message', 'City updated successfully');
             }
         }else{
             // echo '<pre>';
@@ -319,6 +354,10 @@ class WarehouseController extends Controller
                 $res['image'] = $filename;
             }
 
+            // $category = implode(',', $request->input('category'));
+
+            // $res['category']=$category;
+
 
             // $res->img_name = $request->input('plan_image');
             unset($res['_token']);
@@ -327,12 +366,12 @@ class WarehouseController extends Controller
             unset($res['month']);
             unset($res['day']);
 
-            if (DB::table('warehouse_nepal')->insert($res)) {
-                $request->session()->flash('message', 'Warehouse created successfully');
+            if (DB::table('city')->insert($res)) {
+                $request->session()->flash('message', 'City created successfully');
             }
         }
         
-        return redirect('warehouseNepal');
+        return redirect('cityList');
     }
     public function warehouseNepalCreate(Request $request)
     {
@@ -451,6 +490,17 @@ class WarehouseController extends Controller
         if($deleted){
             $request->session()->flash('message', 'Customer Address Deleted successfully');
             return Redirect('/CustomerAddressList');
+        }else{
+            $request->session()->flash('message', 'Failed');
+        }
+    }
+    public function dispatch_now(Request $request)
+    {
+        $id = $request->input();
+        $update = DB::table('city')->where('id', '=', $id)->update();
+        if($update){
+            $request->session()->flash('message', 'Shipment Updated successfully');
+            return Redirect('/TodaysShipments');
         }else{
             $request->session()->flash('message', 'Failed');
         }

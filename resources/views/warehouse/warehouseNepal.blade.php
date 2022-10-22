@@ -62,8 +62,8 @@
 									<td
 										class="jsgrid-cell jsgrid-control-field jsgrid-align-center"
 										style="width: 50px;">
-										<a href="{{ route('warehouseNepalEdit', ['id' => $row->id]) }}" style="color:Black;"><i data-feather="edit-2"></i></a>
-										<a href="{{ route('warehouseNepalDelete', ['id' => $row->id]) }}" style="color:red;"><i data-feather="trash-2"></i></a>
+										<a href="{{ route('warehouseNepalEdit', ['id' => $row->id_warehouse]) }}" style="color:Black;"><i data-feather="edit-2"></i></a>
+										<a href="{{ route('warehouseNepalDelete', ['id' => $row->id_warehouse]) }}" style="color:red;"><i data-feather="trash-2"></i></a>
 									</td>
 								</tr>
 								@endforeach

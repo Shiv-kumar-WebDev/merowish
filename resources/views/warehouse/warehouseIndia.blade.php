@@ -38,8 +38,8 @@
 							<thead>
 								<tr>
 									<th>Tracking Number</th>
-									<th>Product Link</th>
-									<th>Additional shipment Notes</th>
+									{{-- <th>Product Link</th> --}}
+									{{-- <th>Additional shipment Notes</th> --}}
 									<th>Weight</th>
 									<th>Goods Value INR.</th>
 									<th>Unit in Shipment</th>
@@ -52,8 +52,8 @@
 								@foreach ($warehouseindia as $row)
 								<tr>
 									<td>{{$row->tracking_no}}</td>
-									<td>{{$row->product_link}}</td>
-									<td>{{$row->shipment_notes}}</td>
+									{{-- <td>{{$row->product_link}}</td> --}}
+									{{-- <td>{{$row->shipment_notes}}</td> --}}
 									<td>{{$row->weight}} Kg</td>
 									<td>{{$row->goods_value}}</td>
 									<td>{{$row->unit_shipment}}</td>
@@ -62,8 +62,8 @@
 									<td
 										class="jsgrid-cell jsgrid-control-field jsgrid-align-center"
 										style="width: 50px;">
-										<a href="{{ route('warehouseEdit', ['id' => $row->id]) }}" style="color:Black;"><i data-feather="edit-2"></i></a>
-										<a href="{{ route('warehouseDelete', ['id' => $row->id]) }}" style="color:red;"><i data-feather="trash-2"></i></a>
+										<a href="{{ route('warehouseEdit', ['id' => $row->id_warehouse]) }}" style="color:Black;"><i data-feather="edit-2"></i></a>
+										<a href="{{ route('warehouseDelete', ['id' => $row->id_warehouse]) }}" style="color:red;"><i data-feather="trash-2"></i></a>
 									</td>
 								</tr>
 								@endforeach

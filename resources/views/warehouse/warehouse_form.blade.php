@@ -32,7 +32,7 @@
                                 <form class="theme-form" method="POST" action="{{ route('warehouseCreate') }}"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <input type="hidden" name="id" value="{{ $warehouseindia[0]->id ?? '' }}">
+                                    <input type="hidden" name="id" value="{{ $warehouseindia[0]->id_warehouse ?? '' }}">
                                     <div class="mb-3">
                                         <label class="col-form-label pt-0" for="tracking_no">Tracking Number</label>
                                         <input value="{{ $warehouseindia[0]->tracking_no ?? '' }}" class="form-control"

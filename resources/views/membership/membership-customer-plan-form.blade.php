@@ -84,6 +84,11 @@
 									<small class="form-text text-muted">Please enter name.</small>
 								</div>
 								<div class="mb-3">
+									<label class="col-form-label pt-0" for="name">Phone</label>
+									<input value="{{$membership_customers_data[0]->phone??''}}" required class="form-control" name="phone" id="name" type="number" placeholder="Enter Phone">
+									<small class="form-text text-muted">Please enter phone.</small>
+								</div>
+								<div class="mb-3">
 									<label class="col-form-label pt-0" for="duration">Duration</label>
 									<select required class="form-select form-control-primary" name="duration" id="duration">
 										<option value="">Select</option>
@@ -94,16 +99,16 @@
 									</select>
 									<small class="form-text text-muted">Please select plan Duration.</small>
 								</div>
-								<div class="mb-3">
+								{{-- <div class="mb-3">
 									<label class="col-form-label pt-0" for="reference_plans">Reference Plans</label>
-									<select class="form-select form-control-primary" name="id_reference" id="id_reference">
+									<select class="form-select form-control-primary" name="id_reference_plan" id="id_reference_plan">
 										<option value="">Select</option>
 										@foreach($membership_plans as $membership_plan)
 										<option {{ ($membership_customers_data[0]->id_reference??'')==$membership_plan->id_membership_plan?'selected':'' }} value="{{$membership_plan->id_membership_plan}}">{{$membership_plan->name}}</option>
 										@endforeach
 									</select>
 									<small class="form-text text-muted">Please select reference Plans.</small>
-								</div>
+								</div> --}}
 								<div class="mb-3">
 									<label class="col-form-label pt-0" for="price">Price</label>
 									<input value="{{ $membership_customers_data[0]->price??'' }}" class="form-control" name="price" id="price" type="text" placeholder="Enter Plan price">

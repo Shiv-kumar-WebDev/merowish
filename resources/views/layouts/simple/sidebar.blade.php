@@ -170,6 +170,31 @@
 
 
                     </li>
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title {{ (Route::currentRouteName() == 'TodaysShipments' ? 'active' : Route::currentRouteName() == 'WarehouseStock') ? 'active' :Route::currentRouteName() == 'DispatchedToNepal' ? 'active' :Route::currentRouteName() == 'WrongProduct' ? 'active' : '' }}"
+                            href="#"><i data-feather="home"></i><span>{{ trans('Shipments') }}</span>
+                            <div class="according-menu"><i
+                                    class="fa fa-angle-{{ Route::currentRouteName() == '/maps' ? 'down' : 'right' }}"></i>
+                            </div>
+                        </a>
+                        <ul class="sidebar-submenu"
+                            style="display: {{ (Route::currentRouteName() == 'TodaysShipments' ? 'block' : Route::currentRouteName() == 'WarehouseStock' ? 'block' :Route::currentRouteName() == 'DispatchedToNepal' ? 'block' :Route::currentRouteName() == 'WrongProduct') ? 'block' : 'none;' }};">
+                            <li><a href="{{ route('TodaysShipments') }}"
+                                    class="{{ Route::currentRouteName() == 'TodaysShipments' ? 'active' : '' }}">Todays Shipments</a>
+                            </li>
+                            <li><a href="{{ route('WarehouseStock') }}"
+                                    class="{{ Route::currentRouteName() == 'WarehouseStock' ? 'active' : '' }}">Warehouse stock</a>
+                            </li>
+                            <li><a href="{{ route('DispatchedToNepal') }}"
+                                    class="{{ Route::currentRouteName() == 'DispatchedToNepal' ? 'active' : '' }}">Dispatched to Nepal</a>
+                            </li>
+                            <li><a href="{{ route('WrongProduct') }}"
+                                    class="{{ Route::currentRouteName() == 'WrongProduct' ? 'active' : '' }}">Wrong Product</a>
+                            </li>
+                        </ul>
+
+
+                    </li>
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'faq' ? 'active' : '' }}"
                             href="{{ route('faq') }}"><i data-feather="help-circle">

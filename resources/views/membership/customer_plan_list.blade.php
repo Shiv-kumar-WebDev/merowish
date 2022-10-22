@@ -70,8 +70,8 @@
 									<td
 										class="jsgrid-cell jsgrid-control-field jsgrid-align-center"
 										style="width: 50px;">
-										<a href="{{ route('MembershipCustomerEdit', ['id' => $row->id_membership_customer]) }}" style="color:Black;"><i data-feather="edit-2"></i></a>
-										<a href="{{ route('MembershipCustomerDelete', ['id' => $row->id_membership_customer]) }}" style="color:red;"><i data-feather="trash-2"></i></a>
+										<a href="{{ route('MembershipCustomerEdit', ['id' => $row->id_membership_customer ]) }}" style="color:Black;"><i data-feather="edit-2"></i></a>
+										<a href="{{ route('MembershipCustomerDelete', ['id' => $row->id_membership_customer ]) }}" style="color:red;"><i data-feather="trash-2"></i></a>
 									</td>
 								</tr>
 								@endforeach

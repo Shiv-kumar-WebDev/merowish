@@ -58,7 +58,7 @@ class MembershipCustomerController extends Controller
         $data['membership_customers_data'] = DB::table('membership_customers')
             ->select('membership_customers.*','membership_plans.name as membership_plans')
             ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
-            ->where('id_membership_customer',$id)
+            ->where('membership_customers.id_membership_customer',$id)
             ->get();
         return view('membership.membership-customer-plan-form')->with($data);
     }
@@ -171,7 +171,7 @@ class MembershipCustomerController extends Controller
             unset($res['_token']);
             unset($res['id_customer']);
             unset($res['id']);
-            if (DB::table('membership_customers')->insert($res)) {
+            if (DB::table('customer')->insert($res)) {
                 $request->session()->flash('message', 'Membership Customer created successfully');
             }
         }
