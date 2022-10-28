@@ -9,6 +9,8 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\PincodeController;
 use App\Http\Controllers\ShipmentsController;
+use App\Http\Controllers\CouponCodeController;
+use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -99,6 +101,33 @@ Route::get('/WrongProduct', [ShipmentsController::class, 'listWrongProduct'])->n
 Route::get('/viewShipment', [ShipmentsController::class, 'viewShipment'])->name('viewShipment');
 Route::get('/dispatch_now', [ShipmentsController::class, 'dispatch_now'])->name('dispatch_now');
 Route::get('/viewShipment', [ShipmentsController::class, 'viewShipment'])->name('viewShipment');
+
+Route::get('/faqList', [FaqController::class, 'listFaq'])->name('faqList');
+Route::get('/addFaq', [FaqController::class, 'addFaq'])->name('addFaq');
+Route::post('/faqCreate', [FaqController::class, 'faqCreate'])->name('faqCreate');
+Route::get('/faqEdit', [FaqController::class, 'updateFaq'])->name('faqEdit');
+Route::get('/faqDelete', [FaqController::class, 'destroyFaq'])->name('faqDelete');
+
+Route::get('/addArticle', [FaqController::class, 'addArticle'])->name('addArticle');
+Route::post('/articleCreate', [FaqController::class, 'articleCreate'])->name('articleCreate');
+
+Route::get('/addKnowledgebase', [FaqController::class, 'addKnowledgebase'])->name('addKnowledgebase');
+Route::post('/knowledgebaseCreate', [FaqController::class, 'knowledgebaseCreate'])->name('knowledgebaseCreate');
+
+Route::get('/addSupport', [FaqController::class, 'addSupport'])->name('addSupport');
+Route::post('/supportCreate', [FaqController::class, 'supportCreate'])->name('supportCreate');
+
+Route::get('/faq', [FaqController::class, 'faq'])->name('faq');
+
+Route::post('/faqSearch', [FaqController::class, 'faqSearch'])->name('faqSearch');
+
+
+Route::get('/CouponCodeList', [CouponCodeController::class, 'listCouponCode'])->name('CouponCodeList');
+Route::get('/addCouponCode', [CouponCodeController::class, 'addCouponCode'])->name('addCouponCode');
+Route::post('/CouponCodeCreate', [CouponCodeController::class, 'CouponCodeCreate'])->name('CouponCodeCreate');
+Route::get('/CouponCodeEdit', [CouponCodeController::class, 'updateCouponCode'])->name('CouponCodeEdit');
+Route::get('/CouponCodeDelete', [CouponCodeController::class, 'destroyCouponCode'])->name('CouponCodeDelete');
+
 
 
 
@@ -407,7 +436,7 @@ Route::prefix('blog')->group(function () {
 });
 
 
-Route::view('faq', 'apps.faq')->name('faq');
+// Route::view('faq', 'apps.faq')->name('faq');
 
 Route::prefix('job-search')->group(function () {
     Route::view('job-cards-view', 'apps.job-cards-view')->name('job-cards-view');

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
-class ShipmentsController extends Controller
+class FaqController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,47 +29,56 @@ class ShipmentsController extends Controller
 
         return view('city.city')->with($data);
     }
-    public function listTodaysShipments()
+    public function listFaq()
     {
-        $data['shipments'] = DB::table('shipments')
-            ->select('*')
-            // ->select('city.*','country.country_name')
-            ->join('product', 'shipments.product_id', '=', 'product.id_product')
-            ->join('membership_customers', 'shipments.customer_id', '=', 'membership_customers.id_membership_customer')
-            ->join('warehouse', 'shipments.warehouse_id', '=', 'warehouse.id_warehouse')
+        $data['faq'] = DB::table('faq')
+            ->select('faq.*')
+            // ->join('city', 'pincode.city', '=', 'city.id')
             ->get();
 
+        return view('faq.listFaq')->with($data);
+    }
+    public function faq()
+    {
+        $data['faq'] = DB::table('faq')
+            ->select('faq.*')
+            // ->join('city', 'pincode.city', '=', 'city.id')
+            ->get();
 
-        return view('shipments.todayshipments')->with($data);
-    }
-    public function listWarehouseStock()
-    {
-        $data['warehouse'] = DB::table('warehouse')
-            ->select('*')
-            // ->select('city.*','country.country_name')
-            // ->join('product', 'orders.product_id', '=', 'product.id_product')
-            // ->join('customer', 'orders.customer_id', '=', 'customer.id_customer')
-            // ->join('warehouse', 'orders.customer_id', '=', 'warehouse.id_customer')
+        $data['faq_article'] = DB::table('faq_article')
+            ->select('faq_article.*')
+            // ->join('city', 'pincode.city', '=', 'city.id')
             ->get();
-        return view('shipments.WarehouseStock')->with($data);
-    }
-    public function listDispatchedToNepal()
-    {
-        $data['orders'] = DB::table('orders')
-            ->select('orders.*')
-            // ->select('city.*','country.country_name')
-            // ->join('country', 'city.country', '=', 'country.country_id')
+
+        $data['faq_knowledgebase'] = DB::table('faq_knowledgebase')
+            ->select('faq_knowledgebase.*')
+            // ->join('city', 'pincode.city', '=', 'city.id')
             ->get();
-        return view('shipments.DispatchedToNepal')->with($data);
-    }
-    public function listWrongProduct()
-    {
-        $data['orders'] = DB::table('orders')
-            ->select('orders.*')
-            // ->select('city.*','country.country_name')
-            // ->join('country', 'city.country', '=', 'country.country_id')
+
+        $data['faq_support'] = DB::table('faq_support')
+            ->select('faq_support.*')
+            // ->join('city', 'pincode.city', '=', 'city.id')
             ->get();
-        return view('shipments.DispatchedToNepal')->with($data);
+
+        $data['faq'] = DB::table('faq')
+            ->select('faq.*')
+            // ->join('city', 'pincode.city', '=', 'city.id')
+            ->get();
+
+        return view('faq.faq')->with($data);
+    }
+    public function faqSearch(Request $request)
+    {
+        // dd($request->post('text'));
+        $search = $request->post('text');
+        $data['faq'] = DB::table('faq')
+            ->select('faq.*')
+            ->where('question','LIKE', '%'.$search.'%')
+            ->orWhere('answer','LIKE', '%'.$search.'%')
+            // ->join('city', 'pincode.city', '=', 'city.id')
+            ->get();
+
+        return view('faq.faqSearch')->with($data);
     }
     public function listBlog()
     {
@@ -92,37 +101,22 @@ class ShipmentsController extends Controller
             ->get();
         return view('warehouse.warehouse_form')->with($data);
     }
-    public function viewShipment(Request $request)
+    public function updateFaq(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input();
 
-        if($request->input('type')=='warehouse'){
-            $data['shipments'] = DB::table('shipments')
-            ->select('*','membership_plans.name as mName','membership_customers.name as mcName','warehouse.tracking_no as tracking_id','warehouse.goods_value as amount')
-            // ->select('city.*','country.country_name')
-            ->join('product', 'shipments.product_id', '=', 'product.id_product')
-            ->join('membership_customers', 'shipments.customer_id', '=', 'membership_customers.id_membership_customer')
-            ->join('warehouse', 'shipments.warehouse_id', '=', 'warehouse.id_warehouse')
-            ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
-            ->where('id_warehouse',$id)
-            ->get();
 
-            // dd($data);
-        }else{
-            $data['shipments'] = DB::table('shipments')
-            ->select('*','membership_plans.name as mName','membership_customers.name as mcName')
-            // ->select('city.*','country.country_name')
-            ->join('product', 'shipments.product_id', '=', 'product.id_product')
-            ->join('membership_customers', 'shipments.customer_id', '=', 'membership_customers.id_membership_customer')
-            ->join('warehouse', 'shipments.warehouse_id', '=', 'warehouse.id_warehouse')
-            ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
+        $data['faq'] = DB::table('faq')
+            ->select('faq.*')
+            // ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
             ->where('id',$id)
             ->get();
-        }
 
-            // dd($data);
-            
-        return view('shipments.view-shipment')->with($data);
+        $data['city'] = DB::table('city')
+            ->select('city.*')
+            // ->join('membership_plans', 'membership_customers.id_plan', '=', 'membership_plans.id_membership_plan')
+            ->get();
+        return view('faq.add-faq')->with($data);
     }
     /**
      * Show the form for creating a new resource.
@@ -245,23 +239,44 @@ class ShipmentsController extends Controller
             $request->session()->flash('message', 'Failed');
         }
     }
-    public function destroyCity (Request $request)
+    public function destroyFaq (Request $request)
     {
         $id = $request->input();
-        $deleted = DB::table('city')->where('id', '=', $id)->delete();
+        $deleted = DB::table('faq')->where('id', '=', $id)->delete();
         if($deleted){
-            $request->session()->flash('message', 'City Deleted successfully');
-            return Redirect('/cityList');
+            $request->session()->flash('message', 'FAQ Details Deleted successfully');
+            return Redirect('/faqList');
         }else{
             $request->session()->flash('message', 'Failed');
         }
     }
-    public function addCity()
+    public function addFaq(Request $request)
     {
-        $data['country'] = DB::table('country')
-            ->select('country.*')
+        // $data['faq'] = DB::table('faq')
+        //     ->select('faq.*')
+        //     ->get();
+        return view('faq.add-faq');
+    }
+    public function addArticle(Request $request)
+    {
+        $data['faq_article'] = DB::table('faq_article')
+            ->select('faq_article.*')
             ->get();
-        return view('city.add-city')->with($data);
+        return view('faq.add-article')->with($data);
+    }
+    public function addKnowledgebase(Request $request)
+    {
+        $data['faq_knowledgebase'] = DB::table('faq_knowledgebase')
+            ->select('faq_knowledgebase.*')
+            ->get();
+        return view('faq.add-knowledgebase')->with($data);
+    }
+    public function addSupport(Request $request)
+    {
+        $data['faq_support'] = DB::table('faq_support')
+            ->select('faq_support.*')
+            ->get();
+        return view('faq.add-support')->with($data);
     }
     public function storeWarehouse(Request $request)
     {
@@ -323,7 +338,7 @@ class ShipmentsController extends Controller
         
         return redirect('warehouseIndia');
     }
-    public function storeCity(Request $request)
+    public function faqCreate(Request $request)
     {
         $id = $request->input('id');
         // $res = new MembershipPlan();
@@ -348,12 +363,12 @@ class ShipmentsController extends Controller
             unset($res['month']);
             unset($res['day']);
             
-            $update = DB::table('city')
+            $update = DB::table('faq')
                 ->where('id', $id)
                 ->update($res);
 
             if ($update) {
-                $request->session()->flash('message', 'City updated successfully');
+                $request->session()->flash('message', 'FAQ Details updated successfully');
             }
         }else{
             // echo '<pre>';
@@ -380,12 +395,204 @@ class ShipmentsController extends Controller
             unset($res['month']);
             unset($res['day']);
 
-            if (DB::table('city')->insert($res)) {
-                $request->session()->flash('message', 'City created successfully');
+            if (DB::table('faq')->insert($res)) {
+                $request->session()->flash('message', 'Question and Answer created successfully');
             }
         }
         
-        return redirect('cityList');
+        return redirect('faqList');
+    }
+    public function articleCreate(Request $request)
+    {
+        $id = $request->input('id');
+        // $res = new MembershipPlan();
+        if($id){
+
+            $res = $request->input();
+
+            // echo $request->input('is_extend');exit;
+
+            if($request->file('image')){
+                $file= $request->file('image');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('public/images/employee'), $filename);
+                $res['image'] = $filename;
+            }
+
+
+            unset($res['_token']);
+            unset($res['id']);
+            unset($res['passwd']);
+            unset($res['year']);
+            unset($res['month']);
+            unset($res['day']);
+            
+            $update = DB::table('faq_article')
+                ->where('id', $id)
+                ->update($res);
+
+            if ($update) {
+                $request->session()->flash('message', 'Article updated successfully');
+            }
+        }else{
+            // echo '<pre>';
+            // print_r($request->input());exit;
+            $res = $request->input();
+            
+
+            if($request->file('image')){
+                $file= $request->file('image');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('public/images/employee'), $filename);
+                $res['image'] = $filename;
+            }
+
+            // $category = implode(',', $request->input('category'));
+
+            // $res['category']=$category;
+
+
+            // $res->img_name = $request->input('plan_image');
+            unset($res['_token']);
+            unset($res['id']);
+            unset($res['year']);
+            unset($res['month']);
+            unset($res['day']);
+
+            if (DB::table('faq')->insert($res)) {
+                $request->session()->flash('message', 'Question and Answer created successfully');
+            }
+        }
+        
+        return redirect('addArticle');
+    }
+    public function knowledgebaseCreate(Request $request)
+    {
+        $id = $request->input('id');
+        // $res = new MembershipPlan();
+        if($id){
+
+            $res = $request->input();
+
+            // echo $request->input('is_extend');exit;
+
+            if($request->file('image')){
+                $file= $request->file('image');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('public/images/employee'), $filename);
+                $res['image'] = $filename;
+            }
+
+
+            unset($res['_token']);
+            unset($res['id']);
+            unset($res['passwd']);
+            unset($res['year']);
+            unset($res['month']);
+            unset($res['day']);
+            
+            $update = DB::table('faq_knowledgebase')
+                ->where('id', $id)
+                ->update($res);
+
+            if ($update) {
+                $request->session()->flash('message', 'Knowledgebase updated successfully');
+            }
+        }else{
+            // echo '<pre>';
+            // print_r($request->input());exit;
+            $res = $request->input();
+            
+
+            if($request->file('image')){
+                $file= $request->file('image');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('public/images/employee'), $filename);
+                $res['image'] = $filename;
+            }
+
+            // $category = implode(',', $request->input('category'));
+
+            // $res['category']=$category;
+
+
+            // $res->img_name = $request->input('plan_image');
+            unset($res['_token']);
+            unset($res['id']);
+            unset($res['year']);
+            unset($res['month']);
+            unset($res['day']);
+
+            if (DB::table('faq')->insert($res)) {
+                $request->session()->flash('message', 'Question and Answer created successfully');
+            }
+        }
+        
+        return redirect('addKnowledgebase');
+    }
+    public function supportCreate(Request $request)
+    {
+        $id = $request->input('id');
+        // $res = new MembershipPlan();
+        if($id){
+
+            $res = $request->input();
+
+            // echo $request->input('is_extend');exit;
+
+            if($request->file('image')){
+                $file= $request->file('image');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('public/images/employee'), $filename);
+                $res['image'] = $filename;
+            }
+
+
+            unset($res['_token']);
+            unset($res['id']);
+            unset($res['passwd']);
+            unset($res['year']);
+            unset($res['month']);
+            unset($res['day']);
+            
+            $update = DB::table('faq_support')
+                ->where('id', $id)
+                ->update($res);
+
+            if ($update) {
+                $request->session()->flash('message', 'FAQ Support updated successfully');
+            }
+        }else{
+            // echo '<pre>';
+            // print_r($request->input());exit;
+            $res = $request->input();
+            
+
+            if($request->file('image')){
+                $file= $request->file('image');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('public/images/employee'), $filename);
+                $res['image'] = $filename;
+            }
+
+            // $category = implode(',', $request->input('category'));
+
+            // $res['category']=$category;
+
+
+            // $res->img_name = $request->input('plan_image');
+            unset($res['_token']);
+            unset($res['id']);
+            unset($res['year']);
+            unset($res['month']);
+            unset($res['day']);
+
+            if (DB::table('faq')->insert($res)) {
+                $request->session()->flash('message', 'Question and Answer created successfully');
+            }
+        }
+        
+        return redirect('addSupport');
     }
     public function warehouseNepalCreate(Request $request)
     {
@@ -504,17 +711,6 @@ class ShipmentsController extends Controller
         if($deleted){
             $request->session()->flash('message', 'Customer Address Deleted successfully');
             return Redirect('/CustomerAddressList');
-        }else{
-            $request->session()->flash('message', 'Failed');
-        }
-    }
-    public function dispatch_now(Request $request)
-    {
-        $id = $request->input();
-        $update = DB::table('city')->where('id', '=', $id)->update();
-        if($update){
-            $request->session()->flash('message', 'Shipment Updated successfully');
-            return Redirect('/TodaysShipments');
         }else{
             $request->session()->flash('message', 'Failed');
         }

@@ -21,8 +21,8 @@
                     </li>
                     <li class="sidebar-main-title">
                         <div>
-                            <h6 class="lan-1">{{ trans('General') }} </h6>
-                            <p class="lan-2">{{ trans('Dashboards,widgets & layout.') }}</p>
+                            <h6 class="lan-1">{{ trans('Dashboard') }} </h6>
+                            {{-- <p class="lan-2">{{ trans('Dashboards,widgets & layout.') }}</p> --}}
                         </div>
                     </li>
                     <li class="sidebar-list">
@@ -142,14 +142,53 @@
                         </ul>
                     </li>
                     <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title {{ (Route::currentRouteName() == 'cityList' ? 'active' : Route::currentRouteName() == 'addCity') ? 'active' :Route::currentRouteName() == 'pincodeList' ? 'active' :Route::currentRouteName() == 'addPincode' ? 'active' : '' }}"
+                        <a class="sidebar-link sidebar-title {{ (Route::currentRouteName() == 'faqList') ? 'active' : (Route::currentRouteName() == 'addFaq') ? 'active': (Route::currentRouteName() == 'addKnowledgebase') ? 'active' : (Route::currentRouteName() == 'addSupport') ? 'active' : 
+                        (Route::currentRouteName() == 'faq') ? 'active' : '' }}"
+                            href="#"><i data-feather="help-circle"></i><span>F.A/Q Page</span>
+                            <div class="according-menu"><i
+                                    class="fa fa-angle-{{ request()->route()->getPrefix() == '/blog'? 'down': 'right' }}"></i>
+                            </div>
+                        </a>
+                        <ul class="sidebar-submenu"
+                            style="display: {{ Route::currentRouteName() == 'addFaq' ? 'block' : Route::currentRouteName() == 'faqList' ? 'block' : Route::currentRouteName() == 'faq' ? 'block': Route::currentRouteName() == 'addKnowledgebase' ? 'block' :Route::currentRouteName() == 'addSupport' ? 'block' : Route::currentRouteName() == 'addArticle' ? 'block' : 'none;' }}
+                            
+                            ;">
+                            <li><a href="{{ route('faqList') }}"
+                                    class="{{ Route::currentRouteName() == 'faqList' ? 'active' : '' }}">List
+                                    F.A/Q</a>
+                            </li>
+                            {{-- <li><a href="{{ route('blog-single') }}"
+                                    class="{{ Route::currentRouteName() == 'addBlog1' ? 'active' : '' }}">Blog
+                                    Single</a></li> --}}
+                            <li><a href="{{ route('addFaq') }}"
+                                    class="{{ Route::currentRouteName() == 'addFaq' ? 'active' : '' }}">Add F.A/Q</a>
+                            </li>
+                            <li><a href="{{ route('addArticle') }}"
+                                    class="{{ Route::currentRouteName() == 'addArticle' ? 'active' : '' }}">F.A/Q
+                                    Article</a>
+                            </li>
+                            <li><a href="{{ route('addKnowledgebase') }}"
+                                    class="{{ Route::currentRouteName() == 'addKnowledgebase' ? 'active' : '' }}">F.A/Q
+                                    Knowledgebase</a>
+                            </li>
+                            <li><a href="{{ route('addSupport') }}"
+                                    class="{{ Route::currentRouteName() == 'addSupport' ? 'active' : '' }}">F.A/Q
+                                    Support</a>
+                            </li>
+                            <li><a href="{{ route('faq') }}"
+                                    class="{{ Route::currentRouteName() == 'faq' ? 'active' : '' }}">Faq Page</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title {{ (((Route::currentRouteName() == 'cityList' ? 'active' : Route::currentRouteName() == 'addCity') ? 'active' : Route::currentRouteName() == 'pincodeList') ? 'active' : Route::currentRouteName() == 'addPincode') ? 'active' : '' }}"
                             href="#"><i data-feather="map"></i><span>{{ trans('Cities and Pincode') }}</span>
                             <div class="according-menu"><i
                                     class="fa fa-angle-{{ Route::currentRouteName() == '/maps' ? 'down' : 'right' }}"></i>
                             </div>
                         </a>
                         <ul class="sidebar-submenu"
-                            style="display: {{ (Route::currentRouteName() == 'cityList' ? 'block' : Route::currentRouteName() == 'addCity' ? 'block' :Route::currentRouteName() == 'pincodeList' ? 'block' :Route::currentRouteName() == 'addPincode') ? 'block' : 'none;' }};">
+                            style="display: {{ (((Route::currentRouteName() == 'cityList' ? 'block' : Route::currentRouteName() == 'addCity') ? 'block' : Route::currentRouteName() == 'pincodeList') ? 'block' : Route::currentRouteName() == 'addPincode') ? 'block' : 'none;' }};">
                             <li><a href="{{ route('cityList') }}"
                                     class="{{ Route::currentRouteName() == 'cityList' ? 'active' : '' }}">All
                                     Cities</a>
@@ -171,34 +210,57 @@
 
                     </li>
                     <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title {{ (Route::currentRouteName() == 'TodaysShipments' ? 'active' : Route::currentRouteName() == 'WarehouseStock') ? 'active' :Route::currentRouteName() == 'DispatchedToNepal' ? 'active' :Route::currentRouteName() == 'WrongProduct' ? 'active' : '' }}"
+                        <a class="sidebar-link sidebar-title {{ (((Route::currentRouteName() == 'TodaysShipments' ? 'active' : Route::currentRouteName() == 'WarehouseStock') ? 'active' : Route::currentRouteName() == 'DispatchedToNepal') ? 'active' : Route::currentRouteName() == 'WrongProduct') ? 'active' : '' }}"
                             href="#"><i data-feather="home"></i><span>{{ trans('Shipments') }}</span>
                             <div class="according-menu"><i
                                     class="fa fa-angle-{{ Route::currentRouteName() == '/maps' ? 'down' : 'right' }}"></i>
                             </div>
                         </a>
                         <ul class="sidebar-submenu"
-                            style="display: {{ (Route::currentRouteName() == 'TodaysShipments' ? 'block' : Route::currentRouteName() == 'WarehouseStock' ? 'block' :Route::currentRouteName() == 'DispatchedToNepal' ? 'block' :Route::currentRouteName() == 'WrongProduct') ? 'block' : 'none;' }};">
+                            style="display: {{ (((Route::currentRouteName() == 'TodaysShipments' ? 'block' : Route::currentRouteName() == 'WarehouseStock') ? 'block' : Route::currentRouteName() == 'DispatchedToNepal') ? 'block' : Route::currentRouteName() == 'WrongProduct') ? 'block' : 'none;' }};">
                             <li><a href="{{ route('TodaysShipments') }}"
-                                    class="{{ Route::currentRouteName() == 'TodaysShipments' ? 'active' : '' }}">Todays Shipments</a>
+                                    class="{{ Route::currentRouteName() == 'TodaysShipments' ? 'active' : '' }}">Todays
+                                    Shipments</a>
                             </li>
                             <li><a href="{{ route('WarehouseStock') }}"
-                                    class="{{ Route::currentRouteName() == 'WarehouseStock' ? 'active' : '' }}">Warehouse stock</a>
+                                    class="{{ Route::currentRouteName() == 'WarehouseStock' ? 'active' : '' }}">Warehouse
+                                    stock</a>
                             </li>
                             <li><a href="{{ route('DispatchedToNepal') }}"
-                                    class="{{ Route::currentRouteName() == 'DispatchedToNepal' ? 'active' : '' }}">Dispatched to Nepal</a>
+                                    class="{{ Route::currentRouteName() == 'DispatchedToNepal' ? 'active' : '' }}">Dispatched
+                                    to Nepal</a>
                             </li>
                             <li><a href="{{ route('WrongProduct') }}"
-                                    class="{{ Route::currentRouteName() == 'WrongProduct' ? 'active' : '' }}">Wrong Product</a>
+                                    class="{{ Route::currentRouteName() == 'WrongProduct' ? 'active' : '' }}">Wrong
+                                    Product</a>
                             </li>
                         </ul>
 
 
                     </li>
-                    <li class="sidebar-list"><a
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title {{ (Route::currentRouteName() == 'CouponCodeList' ? 'active' : Route::currentRouteName() == 'addCouponCode') ? 'active' : '' }}"
+                            href="#"><i data-feather="home"></i><span>Coupon Code</span>
+                            <div class="according-menu"><i
+                                    class="fa fa-angle-{{ Route::currentRouteName() == '/maps' ? 'down' : 'right' }}"></i>
+                            </div>
+                        </a>
+                        <ul class="sidebar-submenu"
+                            style="display: {{ (Route::currentRouteName() == 'CouponCodeList' ? 'block' :  Route::currentRouteName() == 'addCouponCode') ? 'block' : 'none;' }};">
+                            <li><a href="{{ route('CouponCodeList') }}"
+                                    class="{{ Route::currentRouteName() == 'CouponCodeList' ? 'active' : '' }}">List Coupon Code</a>
+                            </li>
+                            <li><a href="{{ route('addCouponCode') }}"
+                                    class="{{ Route::currentRouteName() == 'addCouponCode' ? 'active' : '' }}">Add Coupon Code</a>
+                            </li>
+                        </ul>
+
+
+                    </li>
+                    {{-- <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'faq' ? 'active' : '' }}"
                             href="{{ route('faq') }}"><i data-feather="help-circle">
-                            </i><span>{{ trans('lang.FAQ') }}</span></a></li>
+                            </i><span>{{ trans('lang.FAQ') }}</span></a></li> --}}
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{ request()->route()->getPrefix() == '/chat'? 'active': '' }}"
                             href="#">
