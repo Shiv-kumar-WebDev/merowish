@@ -42,6 +42,16 @@
 									<small class="form-text text-muted">Please select Membership Plans.</small>
 								</div>
 								<div class="mb-3">
+									<label class="col-form-label pt-0" for="membership_plans">Coupon Code</label>
+									<select class="form-select form-control-primary" name="id_coupon_code" id="id_plan">
+										<option value="">Select</option>
+										@foreach($coupon_code as $row)
+										<option {{ ($membership_customers_data[0]->coupon_code_id??'')==$row->id?'selected':'' }} value="{{$row->id}}">{{$row->code}}</option>
+										@endforeach
+									</select>
+									<small class="form-text text-muted">Please select Membership Plans.</small>
+								</div>
+								<div class="mb-3">
 									<label class="col-form-label pt-0" for="reference_plans">Customer Reference </label>
 									<select class="form-select form-control-primary" name="id_reference" id="id_reference">
 										<option value="">Select</option>

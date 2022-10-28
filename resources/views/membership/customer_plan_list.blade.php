@@ -39,6 +39,7 @@
 								<tr>
 									<th>Name</th>
 									<th>Membership Plans</th>
+									<th>Coupon Code</th>
 									<th>Duration</th>
 									<th>Price</th>
 									<th>Renewable</th>
@@ -52,6 +53,7 @@
 								<tr>
 									<td>{{$row->name}}</td>
 									<td>{{$row->membership_plans}}</td>
+									<td>{{$row->code}}</td>
 									<td>
 										@if($row->duration == 1)
 											Yearly
